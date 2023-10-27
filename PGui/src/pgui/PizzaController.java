@@ -34,7 +34,8 @@ public class PizzaController {
         }
     }
     private void initController() {
-        view.getBtnHinzufuegen().addMouseListener(new MouseAdapter() {
+        view.getBtnHinzufuegen().addMouseListener(new MouseAdapter() 
+        {
             @Override
             public void mouseClicked(MouseEvent e) {
                 addPizza();
