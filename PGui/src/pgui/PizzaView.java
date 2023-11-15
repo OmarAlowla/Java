@@ -29,6 +29,7 @@ public class PizzaView extends JFrame {
     private JButton btnHinzufuegen;
     private JButton btnEntfernen;
     private JButton btnBestellen;
+    private JButton Bestellungen;
     private JList<String> list;
     private PizzaModel model;
     DefaultListModel<String> dlm1 = new DefaultListModel<>();
@@ -64,6 +65,7 @@ public class PizzaView extends JFrame {
         contentPane.add(getBtnHinzufuegen());
         contentPane.add(getBtnEntfernen());
         contentPane.add(getBtnBestellen());
+        contentPane.add(getBestellungen());
         contentPane.add(getList());
     }
     
@@ -171,14 +173,21 @@ public class PizzaView extends JFrame {
         return btnEntfernen;
     }
 
-    private JButton getBtnBestellen() {
+    protected JButton getBtnBestellen() {
         if (btnBestellen == null) {
             btnBestellen = new JButton("Bestellen");
-            btnBestellen.setBounds(329, 224, 89, 23);
+            btnBestellen.setBounds(329, 220, 89, 23);
         }
         return btnBestellen;
     }
 
+    protected JButton getBestellungen() {
+        if (Bestellungen == null) {
+        	Bestellungen = new JButton("Bestellungen");
+            Bestellungen.setBounds(329, 250, 89, 23);
+        }
+        return Bestellungen;
+    }
     protected JList<String> getList() {
         if (list == null) {
             list = new JList<>(dlm1);

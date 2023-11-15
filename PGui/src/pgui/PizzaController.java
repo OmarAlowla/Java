@@ -5,7 +5,8 @@ package pgui;
 import java.util.Arrays;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.io.*;
+import java.nio.file.*;
 public class PizzaController {
     private PizzaModel model;
     private PizzaView view;
@@ -47,6 +48,28 @@ public class PizzaController {
             	 removePizza();
             }
         });
+        view.getBtnBestellen().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	try {
+					Bestellen();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					System.out.println(e1);
+				}
+            }
+        });
+        view.getBestellungen().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	try {
+            		BestellungenAnzeigen();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					System.out.println(e1);
+				}
+            }
+        });
     }
 
     private void addPizza() {
@@ -58,11 +81,12 @@ public class PizzaController {
         		model.WkItem[groesse].getGroesse().getPreis();
         
         view.dlm1.addElement(model.WkItem[pizza].getPizza().getName() +
-                " / " + model.WkItem[extra].getExtra().getName() +
-                " / " + model.WkItem[groesse].getGroesse().getName());
+                ";" + model.WkItem[extra].getExtra().getName() +
+                ";" + model.WkItem[groesse].getGroesse().getName());
         view.getPreis_Label().setText(Double.toString(preis) + "€");
         gesamtPreis = gesamtPreis  + preis;
         view.getGesamtpreis_Label().setText(Double.toString(gesamtPreis) + "€");
+        view.getPreis_Label().setText(Double.toString(preis) + "€") ;
     }
     public int getIndexByExtraName(String extraName) {
         for (int i = 0; i < model.WkItem.length; i++) {
@@ -92,27 +116,84 @@ public class PizzaController {
     private void removePizza() {
         int selectedIndex = view.getList().getSelectedIndex();
 
-        if (selectedIndex != -1) { // Check if an item is selected
+        if (selectedIndex != -1) { 
             String selectedPizza = view.dlm1.getElementAt(selectedIndex).toString();
-            String[] pizzaDetails = selectedPizza.split(" / ");
-
+            String[] pizzaDetails = selectedPizza.split(";");
             int pizza = getIndexByPizzaName(pizzaDetails[0]);
             int extra = getIndexByExtraName(pizzaDetails[1]);
             int groesse = getIndexByGroesseName(pizzaDetails[2]);
-
-            // Check if indices are valid
             if (pizza >= 0 && extra >= 0 && groesse >= 0) {
-                // Subtract the price of the removed pizza from the total
+                
                 double removedPizzaPrice = model.WkItem[pizza].getPizza().getPreis() +
                         model.WkItem[extra].getExtra().getPreis() +
                         model.WkItem[groesse].getGroesse().getPreis();
                 gesamtPreis = gesamtPreis - removedPizzaPrice;
-
-                // Update the view and total price
                 view.dlm1.remove(selectedIndex);
+                if (gesamtPreis <= 0)
+                {
+                	gesamtPreis  =0 ;
+                }
                 view.getGesamtpreis_Label().setText(Double.toString(gesamtPreis) + "€");
             }
         }
     }
+
+    
+/*
+    private void Bestellen() throws IOException {
+    	
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Bestellungen.txt", true))) {
+            for (Object pizzaObject : view.dlm1.toArray()) {
+                String selectedPizza = pizzaObject.toString();
+                String[] pizzaDetails = selectedPizza.split(";");
+                String str = pizzaDetails[0] + ";" + pizzaDetails[1] + ";" + pizzaDetails[2];
+                writer.write("  ");
+                writer.append(str);
+                writer.newLine(); 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void BestellungenAnzeigen() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Bestellungen.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                view.dlm1.addElement(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+*/
+
+
+
+    private void Bestellen() throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("C:\\Users\\AlowlaOmar\\Documents\\Bestellungen.txt"), StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {
+            for (Object pizzaObject : view.dlm1.toArray()) {
+                String selectedPizza = pizzaObject.toString();
+                String[] pizzaDetails = selectedPizza.split(";");
+                String str = pizzaDetails[0] + ";" + pizzaDetails[1] + ";" + pizzaDetails[2];
+                writer.append(str);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void BestellungenAnzeigen() throws IOException {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("C:\\Users\\AlowlaOmar\\Documents\\Bestellungen.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                view.dlm1.addElement(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
