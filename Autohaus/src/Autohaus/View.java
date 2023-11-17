@@ -22,18 +22,14 @@ public class View extends JFrame {
 	private JLabel lblNewLabel_1_1_1_1_1;
 	private JLabel lblNewLabel_1_1_1_1_1_1;
 	private JLabel lblNewLabel_1_1_1_1_1_1_1;
-	private JComboBox<?> comboModell;
-	private JComboBox<?> comboFrabe;
-	private JComboBox<?> comboPS;
-	private JComboBox<?> comboExtras;
+	JComboBox<String> comboModell;
+	JComboBox<String> comboFrabe;
+	private JComboBox<String> comboPS;
+	private JComboBox<String> comboExtras;
 	private JButton btnAuswahl;
-	private JList<?> list;
+	private JList<String> list;
 	private JButton btnBetstellen;
 
-
-	/**
-	 * Create the frame.
-	 */
 	public View() {
 
 		ini();
@@ -119,49 +115,49 @@ public class View extends JFrame {
 		}
 		return lblNewLabel_1_1_1_1_1_1_1;
 	}
-	private JComboBox<?>getComboModell() {
+	protected JComboBox<String> getComboModell() {
 		if (comboModell == null) {
 			comboModell = new JComboBox<String>();
 			comboModell.setBounds(66, 43, 163, 22);
 		}
 		return comboModell;
 	}
-	private JComboBox<?> getComboFrabe() {
+	protected JComboBox<String> getComboFrabe() {
 		if (comboFrabe == null) {
 			comboFrabe = new JComboBox<String>();
 			comboFrabe.setBounds(66, 83, 163, 22);
 		}
 		return comboFrabe;
 	}
-	private JComboBox<?> getComboPS() {
+	protected JComboBox<String> getComboPS() {
 		if (comboPS == null) {
 			comboPS = new JComboBox<String>();
 			comboPS.setBounds(66, 126, 163, 22);
 		}
 		return comboPS;
 	}
-	private JComboBox<?> getComboExtras() {
+	protected JComboBox<String> getComboExtras() {
 		if (comboExtras == null) {
 			comboExtras = new JComboBox<String>();
 			comboExtras.setBounds(66, 161, 163, 22);
 		}
 		return comboExtras;
 	}
-	private JButton getBtnAuswahl() {
+	protected JButton getBtnAuswahl() {
 		if (btnAuswahl == null) {
 			btnAuswahl = new JButton("Auswahl bestätigen");
 			btnAuswahl.setBounds(66, 294, 163, 23);
 		}
 		return btnAuswahl;
 	}
-	private JList<?> getList() {
+	protected JList<String> getList() {
 		if (list == null) {
 			list = new JList<>();
 			list.setBounds(362, 72, 217, 82);
 		}
 		return list;
 	}
-	private JButton getBtnBetstellen() {
+	protected JButton getBtnBetstellen() {
 		if (btnBetstellen == null) {
 			btnBetstellen = new JButton("Auto betstellen");
 			btnBetstellen.setBounds(362, 294, 217, 23);
